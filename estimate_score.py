@@ -34,7 +34,7 @@ BASELINE_TOKENS_PER_SAMPLE = 150  # 평균 생성 토큰
 
 def load_model_and_tokenizer(model_path):
     """모델과 토크나이저 로드"""
-    print(f"\n📦 모델 로딩: {model_path}")
+    print(f"\n모델 로딩: {model_path}")
     
     tokenizer = AutoTokenizer.from_pretrained(
         model_path,
@@ -59,7 +59,7 @@ def load_model_and_tokenizer(model_path):
 
 def load_eval_dataset(tokenizer, num_samples=100):
     """평가 데이터셋 로드"""
-    print(f"\n📊 평가 데이터 로딩 ({num_samples} samples)...")
+    print(f"\n평가 데이터 로딩 ({num_samples} samples)...")
     
     # MANTA 데이터셋의 뒷부분 사용 (학습에 사용 안 한 부분)
     ds = load_dataset(
@@ -84,13 +84,13 @@ def load_eval_dataset(tokenizer, num_samples=100):
             "reference": reference
         })
     
-    print(f"✓ 데이터 로드 완료")
+    print(f"데이터 로드 완료")
     return eval_data
 
 
 def evaluate_performance(model, tokenizer, eval_data):
     """성능(PerfNorm) 평가"""
-    print(f"\n🎯 성능 평가 중...")
+    print(f"\n성능 평가 중...")
     
     model.eval()
     
@@ -154,7 +154,7 @@ def calculate_simple_score(generated, reference):
 
 def evaluate_speed(model, tokenizer, eval_data):
     """속도(SpeedNorm) 평가"""
-    print(f"\n⚡ 속도 평가 중...")
+    print(f"\n속도 평가 중...")
     
     model.eval()
     
@@ -220,7 +220,7 @@ def calculate_normalized_scores(perf_score, time_per_token):
 def estimate_with_baseline_comparison(model_path):
     """Baseline과 비교하여 예상 점수 계산"""
     print("=" * 70)
-    print("🎯 Score Estimator")
+    print("Score Estimator")
     print("=" * 70)
     
     # 모델 로드
@@ -244,16 +244,16 @@ def estimate_with_baseline_comparison(model_path):
     print("\n" + "=" * 70)
     print("📊 최종 결과")
     print("=" * 70)
-    print(f"\n🎯 성능 메트릭:")
+    print(f"\n성능 메트릭:")
     print(f"   - Raw Score: {perf_score:.4f}")
     print(f"   - PerfNorm: {perf_norm:.4f}")
     
-    print(f"\n⚡ 속도 메트릭:")
+    print(f"\n속도 메트릭:")
     print(f"   - 시간/토큰: {time_per_token:.4f} sec")
     print(f"   - 토큰/초: {tokens_per_sec:.1f}")
     print(f"   - SpeedNorm: {speed_norm:.4f}")
     
-    print(f"\n🏆 최종 점수:")
+    print(f"\n최종 점수:")
     print(f"   Score = 0.5 × {perf_norm:.4f} + 0.5 × {speed_norm:.4f}")
     print(f"   Score = {final_score:.4f}")
     
@@ -281,10 +281,10 @@ def estimate_with_baseline_comparison(model_path):
 def quick_estimate(model_path):
     """빠른 추정 (간단한 메트릭만)"""
     print("=" * 70)
-    print("⚡ Quick Score Estimator (빠른 추정)")
+    print("Quick Score Estimator (빠른 추정)")
     print("=" * 70)
     
-    print(f"\n📦 모델 분석: {model_path}")
+    print(f"\n모델 분석: {model_path}")
     
     # 모델 파일 크기
     model_files = []
@@ -309,7 +309,7 @@ def quick_estimate(model_path):
     estimated_perf_norm = 0.95 - 0.05 * (compression_ratio - 1)  # 압축할수록 약간 성능 하락
     estimated_score = 0.5 * estimated_perf_norm + 0.5 * estimated_speed_norm
     
-    print(f"\n🎯 추정 결과 (간단):")
+    print(f"\n추정 결과 (간단):")
     print(f"   - 압축률: {compression_ratio:.2f}x")
     print(f"   - 예상 PerfNorm: ~{estimated_perf_norm:.3f}")
     print(f"   - 예상 SpeedNorm: ~{estimated_speed_norm:.3f}")
@@ -333,7 +333,7 @@ if __name__ == "__main__":
     model_path = sys.argv[1]
     
     if not os.path.exists(model_path):
-        print(f"❌ 모델 경로가 존재하지 않습니다: {model_path}")
+        print(f"모델 경로가 존재하지 않습니다: {model_path}")
         sys.exit(1)
     
     # Quick mode

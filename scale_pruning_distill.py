@@ -1,10 +1,4 @@
 """
-Experiment 25: Manual Scale Pruning + Distillation + GPTQ
-최적 파이프라인: Pruning → Distillation → Quantization
-
-목표: 0.72-0.74
-시간: ~90분
-
 파이프라인:
 1. Scale Pruning (50% 채널 → 0)
 2. Distillation (Pruning 손실 복구)
@@ -37,7 +31,7 @@ NUM_EPOCHS = 1
 TEMPERATURE = 2.0
 
 print("=" * 70)
-print("🔥 Scale Pruning + Distillation + GPTQ 🔥")
+print("Scale Pruning + Distillation + GPTQ")
 print("최적 파이프라인!")
 print("=" * 70)
 
@@ -52,7 +46,7 @@ def scale_pruning(model, ratio=0.5):
     
     for name, module in model.named_modules():
         if 'mlp' in name and isinstance(module, nn.Linear) and 'proj' in name:
-            # ✅ requires_grad를 False로 설정 (gradient 끊기)
+            # requires_grad를 False로 설정 (gradient 끊기)
             with torch.no_grad():
                 weight = module.weight.data
                 
@@ -170,7 +164,7 @@ def distillation_phase(student_model, tokenizer):
 def quantization_phase(model, tokenizer):
     """Phase 3: Quantization"""
     print("\n" + "=" * 70)
-    print("[PHASE 3/3] 🔢 QUANTIZATION")
+    print("[PHASE 3/3] QUANTIZATION")
     print("=" * 70)
     
     # Data (다른 샘플)
@@ -216,7 +210,7 @@ def quantization_phase(model, tokenizer):
 def save_model(model, tokenizer):
     """저장"""
     print("\n" + "=" * 70)
-    print("[FINAL] 💾 저장")
+    print("[FINAL] 저장")
     print("=" * 70)
     
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -230,32 +224,10 @@ def save_model(model, tokenizer):
     if os.path.exists("./model"):
         shutil.rmtree("./model")
     shutil.copytree(OUT_DIR, "./model")
-    shutil.make_archive("exp25_submit", "zip", ".", "model")
+    shutil.make_archive("submit", "zip", ".", "model")
     
-    zip_size = os.path.getsize("exp25_submit.zip") / (1024**2)
-    
-    print("\n" + "=" * 70)
-    print("🏆 최적 파이프라인 완성!")
-    print("=" * 70)
-    print(f"\n✓ exp25_submit.zip: {zip_size:.1f} MB")
-    print("\n📊 파이프라인:")
-    print("   1. Scale Pruning (50% 채널 → 0)")
-    print("      → Shape 유지, 0 증가")
-    print("   2. Distillation (Pruning 손실 복구)")
-    print("      → PerfNorm +5-8% 회복")
-    print("   3. GPTQ 4-bit (최종 압축)")
-    print("      → 0이 많아 압축률 향상")
-    print("\n💡 작동 원리:")
-    print("   - Scale Pruning: 50% weight → 0")
-    print("   - Distillation: 성능 복구 (학습 가능)")
-    print("   - Quantization: 0 cluster 압축")
-    print("\n🎯 예상 결과:")
-    print("   - 용량: ~530MB (압축 효과!)")
-    print("   - PerfNorm: ~0.88 (Distillation 복구)")
-    print("   - SpeedNorm: ~0.56")
-    print("   - Score: ~0.72-0.74 🏆")
-    print("\n✅ 안정성: 100% (Shape 불변, vLLM 호환)")
-    print("=" * 70)
+    zip_size = os.path.getsize("submit.zip") / (1024**2)
+
 
 
 # ========== Main ==========

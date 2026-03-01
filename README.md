@@ -9,7 +9,7 @@ GPTQ W4A16 기반으로 시행
 
 ## Features
 default.py, default.ipnyb: 대회에서 제공한 기본 코드
-scale_pruning_distill.py: 2:4 sparsity pruning -> knowledge distillation -> GPTQ(W4A16)
+scale_pruning_distill.py: 2:4 sparsity pruning -> knowledge distillation -> GPTQ(W4A16) \n
 ignore_dummy_GPTQ.py: 24개 레이어 다시 30개로 만들기 위해 더미 레이어 0으로 추가하여 대회 환경에 맞추기
 nearly_zero.py: 더미 레이어 0 대신 0에 가까운 수로 변경
 => 추후 속도 증가를 위해 레이어를 줄였으나 다시 늘리는 방법은 틀렸다 생각하여 lm_head 중복 제거로 해결
